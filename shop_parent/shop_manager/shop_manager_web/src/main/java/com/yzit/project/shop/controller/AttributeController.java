@@ -26,7 +26,7 @@ public class AttributeController {
 
     @PutMapping("/{id}")
     public SysAttribute edit(@PathVariable int id){
-
+        System.out.println("asdas");
         SysAttribute sysAttribute = attributeService.findById(id);
 
         return sysAttribute;
