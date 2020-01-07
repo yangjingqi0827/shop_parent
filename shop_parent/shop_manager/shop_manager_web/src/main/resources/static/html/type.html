@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品分类</title>
+    <link rel="stylesheet" href="/../elementUI/index.css">
+</head>
+<body>
+<div id="app">
+    <template>
+        <div>
+            <el-button
+                    size="mini"
+                    @click="add()">添加</el-button>
+            <el-table
+                    :data="treeTableData"
+                    style="width: 100%"
+                    row-key="typeId"
+                    border
+                    lazy
+                    :props="treeParentChildren">
+                <el-table-column
+                        prop="typeName"
+                        label="名称"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="typeSort"
+                        label="排序"
+                        width="180">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                @click="handleFind(scope.row)">[查看]</el-button>
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.row)">编辑</el-button>
+                        <el-button
+                                size="mini"
+                                @click="handleDel(scope.row)">[删除]</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+    </template>
+
+    <el-dialog title="添加" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+            <el-form-item label="名称" :label-width="formLabelWidth">
+                <el-input v-model="form.typeName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="上级分类" :label-width="formLabelWidth">
+                <el-select v-model="form.typePid" placeholder="请选择">
+                    <el-option :value="form.typePid" :label="typeName" style="height: auto">
+                        <el-tree :data="treeTableData"
+                                 :props="treeParentChildren"
+                                 default-expand-all
+                                 node-key="typeId"
+                                 ref="tree"
+                                 highlight-current
+                                 @node-click="handleNodeClick">
+                        </el-tree>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="筛选品牌" :label-width="formLabelWidth">
+                    <el-checkbox-group v-model="checkedBrands">
+                        <el-checkbox v-for="i in brands"  :label="i.brandName" :key="i.brandId"></el-checkbox>
+                  </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="页面标题" :label-width="formLabelWidth">
+                <el-input v-model="form.typeTitle" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="页面关键词" :label-width="formLabelWidth">
+                <el-input v-model="form.typeKeyword" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="页面描述" :label-width="formLabelWidth">
+                <el-input v-model="form.typeDesc" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="排序" :label-width="formLabelWidth">
+                <el-input v-model="form.typeSort" autocomplete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        </div>
+    </el-dialog>
+
+</div>
+
+<script src="/../js/vue.min.js"></script>
+<script src="/../elementUI/index.js"></script>
+<script src="/../js/axios.min.js"></script>
+
+<script>
+
+    var type = new Vue({
+        el : "#app",
+        data:{
+            treeTableData: [],
+            treeParentChildren:{
+                label:"typeName"
+            },
+            typeName:"",
+            dialogFormVisible: false,
+            form:{
+                typePid:''
+            },
+            formLabelWidth: '120px',
+            checkedBrands:[],
+            brands:[]
+        },
+        created:function () {
+          this.findAll()
+          this.findBrands()
+        },
+        methods: {
+            findAll :function(){
+                axios.get("http://localhost:8080/type").then(function (resa) {
+                    type.treeTableData = resa.data
+                })
+            },
+            add:function () {
+                this.dialogFormVisible = true
+                this.form={
+                    typePid:''
+                }
+                this.typeName = ""
+                this.checkedBrands = []
+            },
+            handleNodeClick:function(data) {
+                this.form.typePid = data.typeId
+                this.typeName = data.typeName
+                console.log(this.checkedBrands)
+            },
+            findBrands:function () {
+                axios.get("http://localhost:8080/brand").then(function (resa) {
+                    type.brands = resa.data
+                    console.log(type.brands)
+                })
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

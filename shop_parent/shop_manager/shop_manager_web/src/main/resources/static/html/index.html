@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../elementUI/index.css">
+
+    <style>
+        .el-header, .el-footer {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            background-color: #222d32;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+            height: 718px;
+        }
+
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+
+        .el-container:nth-child(5) .el-aside,
+        .el-container:nth-child(6) .el-aside {
+            line-height: 260px;
+        }
+
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        }
+
+        .el-menu-vertical-demo:not(.el-menu--collapse) {
+            width: 199px;
+            min-height: 400px;
+        }
+        .el-menu{
+            background-color: #222d32;
+            border-right: solid 0px #e6e6e6;
+        }
+        .el-menu-item{
+            color: #E9EEF3;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <el-container>
+        <el-aside width="200px">
+            <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                <el-submenu index="1">
+                    <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">商品管理</span>
+                    </template>
+                    <el-menu-item>
+                        <el-link @click="changeSrc('type.html')" :underline="false">商品分类</el-link>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <el-link @click="changeSrc('brand.html')" :underline="false">品牌管理</el-link>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <el-link  :underline="false">规格管理</el-link>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <el-link @click="changeSrc('parameter.html')" :underline="false">属性管理</el-link>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <el-link @click="changeSrc('attribute.html')" :underline="false">参数管理</el-link>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <el-link :underline="false">新增商品</el-link>
+                    </el-menu-item>
+                </el-submenu>
+            </el-menu>
+
+        </el-aside>
+        <el-container>
+            <el-header>
+                <el-button :label="false"  @click="changeIsCollapse">折叠</el-button>
+            </el-header>
+            <el-main>
+                <iframe :src="src" height="89%" width="100%" frameborder="0"></iframe>
+            </el-main>
+            <el-footer>Footer</el-footer>
+        </el-container>
+    </el-container>
+</div>
+
+<script src="/../js/vue.min.js"></script>
+<script src="/../elementUI/index.js"></script>
+<script src="/../js/axios.min.js"></script>
+
+<script>
+
+    var parameter = new Vue({
+        el : "#app",
+        data :{
+            isCollapse: false   ,
+            src:""
+        },
+        methods:{
+            handleOpen:function(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose:function(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            changeIsCollapse:function () {
+                this.isCollapse = !this.isCollapse
+            },
+            changeSrc:function (url) {
+                console.log(url)
+                this.src = url
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>

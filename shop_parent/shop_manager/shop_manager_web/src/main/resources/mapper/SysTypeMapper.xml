@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzit.project.shop.dao.SysTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.yzit.project.shop.entity.SysType" >
+    <id column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_sort" property="typeSort" jdbcType="INTEGER" />
+    <result column="type_pid" property="typePid" jdbcType="INTEGER" />
+    <result column="type_title" property="typeTitle" jdbcType="VARCHAR" />
+    <result column="type_keyword" property="typeKeyword" jdbcType="VARCHAR" />
+    <result column="type_desc" property="typeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMap" type="com.yzit.project.shop.entity.SysType" extends="BaseResultMap">
+    <collection property="children" column="type_id" select="com.yzit.project.shop.dao.SysTypeMapper.findByChildren"></collection>
+  </resultMap>
+
+  <select id="findAll" resultMap="ResultMap">
+    select * from sys_type where type_pid = 0
+  </select>
+
+  <select id="findByChildren" resultMap="ResultMap" parameterType="int">
+    select * from sys_type where type_pid = #{typeId}
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    type_id, type_name, type_sort, type_pid, type_title, type_keyword, type_desc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yzit.project.shop.entity.SysTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_type
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_type
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yzit.project.shop.entity.SysTypeExample" >
+    delete from sys_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yzit.project.shop.entity.SysType" >
+    insert into sys_type (type_id, type_name, type_sort, 
+      type_pid, type_title, type_keyword, 
+      type_desc)
+    values (#{typeId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{typeSort,jdbcType=INTEGER}, 
+      #{typePid,jdbcType=INTEGER}, #{typeTitle,jdbcType=VARCHAR}, #{typeKeyword,jdbcType=VARCHAR}, 
+      #{typeDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzit.project.shop.entity.SysType" >
+    insert into sys_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+      <if test="typeSort != null" >
+        type_sort,
+      </if>
+      <if test="typePid != null" >
+        type_pid,
+      </if>
+      <if test="typeTitle != null" >
+        type_title,
+      </if>
+      <if test="typeKeyword != null" >
+        type_keyword,
+      </if>
+      <if test="typeDesc != null" >
+        type_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSort != null" >
+        #{typeSort,jdbcType=INTEGER},
+      </if>
+      <if test="typePid != null" >
+        #{typePid,jdbcType=INTEGER},
+      </if>
+      <if test="typeTitle != null" >
+        #{typeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="typeKeyword != null" >
+        #{typeKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null" >
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yzit.project.shop.entity.SysTypeExample" resultType="java.lang.Integer" >
+    select count(*) from sys_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_type
+    <set >
+      <if test="record.typeId != null" >
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeName != null" >
+        type_name = #{record.typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeSort != null" >
+        type_sort = #{record.typeSort,jdbcType=INTEGER},
+      </if>
+      <if test="record.typePid != null" >
+        type_pid = #{record.typePid,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeTitle != null" >
+        type_title = #{record.typeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeKeyword != null" >
+        type_keyword = #{record.typeKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeDesc != null" >
+        type_desc = #{record.typeDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_type
+    set type_id = #{record.typeId,jdbcType=INTEGER},
+      type_name = #{record.typeName,jdbcType=VARCHAR},
+      type_sort = #{record.typeSort,jdbcType=INTEGER},
+      type_pid = #{record.typePid,jdbcType=INTEGER},
+      type_title = #{record.typeTitle,jdbcType=VARCHAR},
+      type_keyword = #{record.typeKeyword,jdbcType=VARCHAR},
+      type_desc = #{record.typeDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzit.project.shop.entity.SysType" >
+    update sys_type
+    <set >
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSort != null" >
+        type_sort = #{typeSort,jdbcType=INTEGER},
+      </if>
+      <if test="typePid != null" >
+        type_pid = #{typePid,jdbcType=INTEGER},
+      </if>
+      <if test="typeTitle != null" >
+        type_title = #{typeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="typeKeyword != null" >
+        type_keyword = #{typeKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null" >
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzit.project.shop.entity.SysType" >
+    update sys_type
+    set type_name = #{typeName,jdbcType=VARCHAR},
+      type_sort = #{typeSort,jdbcType=INTEGER},
+      type_pid = #{typePid,jdbcType=INTEGER},
+      type_title = #{typeTitle,jdbcType=VARCHAR},
+      type_keyword = #{typeKeyword,jdbcType=VARCHAR},
+      type_desc = #{typeDesc,jdbcType=VARCHAR}
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+</mapper>

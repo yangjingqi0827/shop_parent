@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzit.project.shop.dao.SysParameterMapper" >
+  <resultMap id="BaseResultMap" type="com.yzit.project.shop.entity.SysParameter" >
+    <id column="parameter_id" property="parameterId" jdbcType="INTEGER" />
+    <result column="shop_type" property="shopType" jdbcType="INTEGER" />
+    <result column="parameter_name" property="parameterName" jdbcType="VARCHAR" />
+    <result column="parameter_sort" property="parameterSort" jdbcType="INTEGER" />
+    <result column="parameter_value" property="parameterValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    parameter_id, shop_type, parameter_name, parameter_sort, parameter_value
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yzit.project.shop.entity.SysParameterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_parameter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_parameter
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_parameter
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yzit.project.shop.entity.SysParameterExample" >
+    delete from sys_parameter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yzit.project.shop.entity.SysParameter" >
+    insert into sys_parameter (parameter_id, shop_type, parameter_name, 
+      parameter_sort, parameter_value)
+    values (#{parameterId,jdbcType=INTEGER}, #{shopType,jdbcType=INTEGER}, #{parameterName,jdbcType=VARCHAR}, 
+      #{parameterSort,jdbcType=INTEGER}, #{parameterValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzit.project.shop.entity.SysParameter" >
+    insert into sys_parameter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parameterId != null" >
+        parameter_id,
+      </if>
+      <if test="shopType != null" >
+        shop_type,
+      </if>
+      <if test="parameterName != null" >
+        parameter_name,
+      </if>
+      <if test="parameterSort != null" >
+        parameter_sort,
+      </if>
+      <if test="parameterValue != null" >
+        parameter_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parameterId != null" >
+        #{parameterId,jdbcType=INTEGER},
+      </if>
+      <if test="shopType != null" >
+        #{shopType,jdbcType=INTEGER},
+      </if>
+      <if test="parameterName != null" >
+        #{parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterSort != null" >
+        #{parameterSort,jdbcType=INTEGER},
+      </if>
+      <if test="parameterValue != null" >
+        #{parameterValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yzit.project.shop.entity.SysParameterExample" resultType="java.lang.Integer" >
+    select count(*) from sys_parameter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_parameter
+    <set >
+      <if test="record.parameterId != null" >
+        parameter_id = #{record.parameterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopType != null" >
+        shop_type = #{record.shopType,jdbcType=INTEGER},
+      </if>
+      <if test="record.parameterName != null" >
+        parameter_name = #{record.parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parameterSort != null" >
+        parameter_sort = #{record.parameterSort,jdbcType=INTEGER},
+      </if>
+      <if test="record.parameterValue != null" >
+        parameter_value = #{record.parameterValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_parameter
+    set parameter_id = #{record.parameterId,jdbcType=INTEGER},
+      shop_type = #{record.shopType,jdbcType=INTEGER},
+      parameter_name = #{record.parameterName,jdbcType=VARCHAR},
+      parameter_sort = #{record.parameterSort,jdbcType=INTEGER},
+      parameter_value = #{record.parameterValue,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzit.project.shop.entity.SysParameter" >
+    update sys_parameter
+    <set >
+      <if test="shopType != null" >
+        shop_type = #{shopType,jdbcType=INTEGER},
+      </if>
+      <if test="parameterName != null" >
+        parameter_name = #{parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterSort != null" >
+        parameter_sort = #{parameterSort,jdbcType=INTEGER},
+      </if>
+      <if test="parameterValue != null" >
+        parameter_value = #{parameterValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzit.project.shop.entity.SysParameter" >
+    update sys_parameter
+    set shop_type = #{shopType,jdbcType=INTEGER},
+      parameter_name = #{parameterName,jdbcType=VARCHAR},
+      parameter_sort = #{parameterSort,jdbcType=INTEGER},
+      parameter_value = #{parameterValue,jdbcType=VARCHAR}
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </update>
+</mapper>

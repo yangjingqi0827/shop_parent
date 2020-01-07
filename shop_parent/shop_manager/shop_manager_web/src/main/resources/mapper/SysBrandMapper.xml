@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzit.project.shop.dao.SysBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.yzit.project.shop.entity.SysBrand" >
+    <id column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_type" property="brandType" jdbcType="INTEGER" />
+    <result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+    <result column="brand_wangzhi" property="brandWangzhi" jdbcType="VARCHAR" />
+    <result column="brand_sort" property="brandSort" jdbcType="INTEGER" />
+    <result column="brand_sug" property="brandSug" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    brand_id, brand_name, brand_type, brand_logo, brand_wangzhi, brand_sort, brand_sug
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yzit.project.shop.entity.SysBrandExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yzit.project.shop.entity.SysBrandExample" >
+    delete from sys_brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yzit.project.shop.entity.SysBrand" >
+    insert into sys_brand (brand_id, brand_name, brand_type, 
+      brand_logo, brand_wangzhi, brand_sort, 
+      brand_sug)
+    values (#{brandId,jdbcType=INTEGER}, #{brandName,jdbcType=VARCHAR}, #{brandType,jdbcType=INTEGER}, 
+      #{brandLogo,jdbcType=VARCHAR}, #{brandWangzhi,jdbcType=VARCHAR}, #{brandSort,jdbcType=INTEGER}, 
+      #{brandSug,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzit.project.shop.entity.SysBrand" >
+    insert into sys_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandType != null" >
+        brand_type,
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo,
+      </if>
+      <if test="brandWangzhi != null" >
+        brand_wangzhi,
+      </if>
+      <if test="brandSort != null" >
+        brand_sort,
+      </if>
+      <if test="brandSug != null" >
+        brand_sug,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandType != null" >
+        #{brandType,jdbcType=INTEGER},
+      </if>
+      <if test="brandLogo != null" >
+        #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandWangzhi != null" >
+        #{brandWangzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="brandSort != null" >
+        #{brandSort,jdbcType=INTEGER},
+      </if>
+      <if test="brandSug != null" >
+        #{brandSug,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yzit.project.shop.entity.SysBrandExample" resultType="java.lang.Integer" >
+    select count(*) from sys_brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_brand
+    <set >
+      <if test="record.brandId != null" >
+        brand_id = #{record.brandId,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandName != null" >
+        brand_name = #{record.brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandType != null" >
+        brand_type = #{record.brandType,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandLogo != null" >
+        brand_logo = #{record.brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandWangzhi != null" >
+        brand_wangzhi = #{record.brandWangzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandSort != null" >
+        brand_sort = #{record.brandSort,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandSug != null" >
+        brand_sug = #{record.brandSug,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_brand
+    set brand_id = #{record.brandId,jdbcType=INTEGER},
+      brand_name = #{record.brandName,jdbcType=VARCHAR},
+      brand_type = #{record.brandType,jdbcType=INTEGER},
+      brand_logo = #{record.brandLogo,jdbcType=VARCHAR},
+      brand_wangzhi = #{record.brandWangzhi,jdbcType=VARCHAR},
+      brand_sort = #{record.brandSort,jdbcType=INTEGER},
+      brand_sug = #{record.brandSug,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzit.project.shop.entity.SysBrand" >
+    update sys_brand
+    <set >
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandType != null" >
+        brand_type = #{brandType,jdbcType=INTEGER},
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandWangzhi != null" >
+        brand_wangzhi = #{brandWangzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="brandSort != null" >
+        brand_sort = #{brandSort,jdbcType=INTEGER},
+      </if>
+      <if test="brandSug != null" >
+        brand_sug = #{brandSug,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzit.project.shop.entity.SysBrand" >
+    update sys_brand
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_type = #{brandType,jdbcType=INTEGER},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_wangzhi = #{brandWangzhi,jdbcType=VARCHAR},
+      brand_sort = #{brandSort,jdbcType=INTEGER},
+      brand_sug = #{brandSug,jdbcType=VARCHAR}
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+</mapper>
